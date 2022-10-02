@@ -16,8 +16,8 @@ def getleechinfo(from_user):
     name = from_user.full_name
     buttons = button_build.ButtonMaker()
     thumbpath = f"Thumbnails/{user_id}.jpg"
-    user_dict = user_data.get(user_id, False)
-    if not user_dict and AS_DOCUMENT or user_dict and user_dict.get('as_doc'):
+    if user_id in user_data and (user_data[user_id].get('as_doc') or (not user_data[user_id].get('as_media') \
+       and AS_DOCUMENT)):
         ltype = "DOCUMENT"
         buttons.sbutton("Send As Media", f"leechset {user_id} med")
     else:
