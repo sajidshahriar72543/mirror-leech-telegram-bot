@@ -283,3 +283,9 @@ def get_content_type(link: str) -> str:
         except:
             content_type = None
     return content_type
+
+def update_user_ldata(id_: int, key, value):
+    if id_ in user_data:
+        user_data[id_][key] = value
+    else:
+        user_data[id_] = {key: value}

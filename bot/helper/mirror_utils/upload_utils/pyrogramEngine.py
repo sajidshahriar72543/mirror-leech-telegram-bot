@@ -176,10 +176,13 @@ class TgUploader:
             self.uploaded_bytes += chunk_size
 
     def __user_settings(self):
-        if self.__listener.message.from_user.id in AS_DOC_USERS:
-            self.__as_doc = True
-        elif self.__listener.message.from_user.id in AS_MEDIA_USERS:
-            self.__as_doc = False
+        user_id = self.__listener.message.from_user.id
+        user_dict = user_data.get(user_id, False)
+        if user_dict:
+            if user_dict.get('as_doc'):
+                self.__as_doc = True
+            else:
+                self.__as_doc = False
         if not ospath.lexists(self.__thumb):
             self.__thumb = None
 
