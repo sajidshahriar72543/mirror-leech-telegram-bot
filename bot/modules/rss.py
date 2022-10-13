@@ -203,12 +203,13 @@ def rss_monitor(context):
             rss_d = feedparse(data[0])
             last_link = rss_d.entries[0]['link']
             last_title = rss_d.entries[0]['title']
-            if data[1] == last_link or data[2] == last_title:
+            if data['last_feed'] == last_link or data['last_title'] == last_title:
                 continue
             feed_count = 0
             while True:
                 try:
-                    if data[1] == rss_d.entries[feed_count]['link'] or data[2] == rss_d.entries[feed_count]['title']:
+                    if data['last_feed'] == rss_d.entries[feed_count]['link'] or \
+                       data['last_title'] == rss_d.entries[feed_count]['title']:
                         break
                 except IndexError:
                     LOGGER.warning(f"Reached Max index no. {feed_count} for this feed: {name}. \
@@ -239,7 +240,7 @@ def rss_monitor(context):
                 rss_dict[title].update({'last_feed': last_link, 'last_title': last_title})
             DbManger().rss_update(title)
             LOGGER.info(f"Feed Name: {title}")
-            LOGGER.info(f"Last item: {last_link}")
+            LOGGER.info(f"Last item: {last_feed}")
         except Exception as e:
             LOGGER.error(f"{e} Feed Name: {name} - Feed Link: {data[0]}")
             continue
